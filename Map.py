@@ -28,7 +28,7 @@ class Map:
             nodes.append(node_row[:])
             node_row = []
         self.nodes: List[List[MapNode]] = nodes
-        self.start_coord: Optional[Tuple[int, int]] = None
+        self.current_coord: Optional[Tuple[int, int]] = None
         self.goal_coord: Optional[Tuple[int, int]] = None
 
     def update_coords(self: Map, start_coord: Tuple[int, int], goal_coord: Tuple[int, int]) -> None:
@@ -40,8 +40,29 @@ class Map:
             start_coord (Tuple[int, int]): The starting coordinate
             goal_coord (Tuple[int, int]): The ending coordinate
         """
-        self.start_coord = start_coord
+        self.current_coord = start_coord
         self.goal_coord = goal_coord
+
+    def print_out_costs(self: Map) -> None:
+        """
+        Prints out all the costs in the map
+
+        Args:
+            self (Map): The internal map state
+        """
+        row = 1
+        cols = self.cols
+        stringified_costs = '\t Col 1'
+        for i in range(1, cols):
+            stringified_costs += f'Col {i + 1}\t'
+        stringified_costs += '\n'
+        for each_row in self.nodes:
+            stringified_costs += f'Row {row}\t'
+            row += 1
+            for each_node in each_row:
+                stringified_costs += f'{each_node.cost}\t'
+            stringified_costs += '\n'
+        print(stringified_costs)
 
     def __str__(self: Map) -> str:
         """

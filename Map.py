@@ -22,14 +22,21 @@ class Map:
         self.cols = m
         nodes = []
         node_row = []
+        self.costs = []
         for i in range(n):
             for j in range(m):
                 node_row.append(MapNode(i, j, generate_cost()))
             nodes.append(node_row[:])
             node_row = []
         self.nodes: List[List[MapNode]] = nodes
-        self.current_coord: Optional[Tuple[int, int]] = None
-        self.goal_coord: Optional[Tuple[int, int]] = None
+        self.current_coord: Tuple[int, int] = (-1, -1)
+        self.goal_coord: Tuple[int, int] = (-1, -1)
+
+        for each_row in self.nodes:
+            sub_costs = []
+            for each_node in each_row:
+                sub_costs.append(each_node.cost)
+            self.costs.append(sub_costs[:])
 
     def update_coords(self: Map, start_coord: Tuple[int, int], goal_coord: Tuple[int, int]) -> None:
         """
@@ -54,7 +61,7 @@ class Map:
         cols = self.cols
         stringified_costs = '\t Col 1'
         for i in range(1, cols):
-            stringified_costs += f'Col {i + 1}\t'
+            stringified_costs += f'{i + 1}\t '
         stringified_costs += '\n'
         for each_row in self.nodes:
             stringified_costs += f'Row {row}\t'
@@ -64,68 +71,8 @@ class Map:
             stringified_costs += '\n'
         print(stringified_costs)
 
-    def __str__(self: Map) -> str:
-        """
-        Returns a stringified version of the map
-
-        Args:
-            self (Map): The map to stringify
-
-        Returns:
-            str: The string version of the map
-        """
-        row = 1
-        stringified_map = '\t'
-        for j in range(self.cols):
-            stringified_map += f'Col {row}\t'
-            row += 1
-        stringified_map += '\n'
-        row = 1
-        for i in range(self.rows):
-            stringified_map += f'Row {row}\t'
-            for j in range(self.cols):
-                stringified_map += f'{self.nodes[i][j]}\t'
-            stringified_map += '\n'
-            row += 1
-        return stringified_map
-
-    def __repr__(self: Map) -> str:
-        """
-        Returns a stringified version of the map
-
-        Args:
-            self (Map): The map to stringify
-
-        Returns:
-            str: The string version of the map
-        """
-        row = 1
-        stringified_map = ''
-        for i in range(self.rows):
-            stringified_map += f'Row {row}\t'
-            for j in range(self.cols):
-                stringified_map += f'{self.nodes[i][j]}\t'
-            stringified_map += '\n'
-        return stringified_map
-
-    def __unicode__(self: Map) -> str:
-        """
-        Returns a stringified version of the map
-
-        Args:
-            self (Map): The map to stringify
-
-        Returns:
-            str: The string version of the map
-        """
-        row = 1
-        stringified_map = ''
-        for i in range(self.rows):
-            stringified_map += f'Row {row}\t'
-            for j in range(self.cols):
-                stringified_map += f'{self.nodes[i][j]}\t'
-            stringified_map += '\n'
-        return stringified_map
+    def get_cost(self: Map, row: int, col: int) -> int:
+        return self.nodes[row][col].cost
 
     def assign_heuristics(self: Map) -> None:
         """

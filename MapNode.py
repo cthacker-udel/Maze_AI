@@ -16,17 +16,10 @@ class MapNode:
             y (int): The y coordinate
             cost (int): The cost of the map node
         """
-        self.visited: bool = False
         self.row = row
         self.col = col
         self.cost = cost
         self.heuristic: int = 0
-
-    def visit(self: MapNode):
-        """
-            Visit the node in the map
-        """
-        self.visited = True
 
     def __str__(self: MapNode) -> str:
         """
@@ -35,7 +28,7 @@ class MapNode:
         Returns:
             str: The stringified version of the node
         """
-        return f"{'#' if self.visited else '-'}"
+        return f"({self.row}, {self.col})"
 
     def __unicode__(self: MapNode) -> str:
         """
@@ -44,7 +37,7 @@ class MapNode:
         Returns:
             str: The stringified version of the node
         """
-        return f"{'#' if self.visited else '-'}"
+        return f"({self.row}, {self.col})"
 
     def __repr__(self: MapNode) -> str:
         """
@@ -53,4 +46,4 @@ class MapNode:
         Returns:
             str: The stringified version of the node
         """
-        return f"{'#' if self.visited else '-'}"
+        return f"({self.row}, {self.col})"

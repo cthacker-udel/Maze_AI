@@ -1,5 +1,7 @@
 from random import randint
-from typing import Tuple, Optional
+from typing import Tuple
+from MovementType import MovementType
+from MapNode import MapNode
 
 
 def generate_cost(min: int = 1, max: int = 10):
@@ -61,3 +63,16 @@ def compute_manhattan_distance(source_point: Tuple[int, int], goal_point: Tuple[
         goal_point (Tuple[int, int]): The goal point
     """
     return abs(source_point[0] - goal_point[0]) + abs(source_point[1] - goal_point[1])
+
+
+def move_node(node: MapNode, movement: MovementType) -> Tuple[int, int]:
+    row = node.row
+    col = node.col
+    if movement == MovementType.LEFT:
+        return (row, col - 1)
+    elif movement == MovementType.RIGHT:
+        return (row, col + 1)
+    elif movement == MovementType.DOWN:
+        return (row + 1, col)
+    else:
+        return (row - 1, col)
